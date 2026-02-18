@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Generator</title>
+</head>
+
+<body>
+
+<h2>Generate PDF</h2>
+
+<input id="name" placeholder="Name"><br><br>
+<input id="score" placeholder="Score"><br><br>
+
+<button onclick="generate()">Generate PDF</button>
+
+<script>
+function generate() {
+  fetch("/generate", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name: document.getElementById("name").value,
+      score: document.getElementById("score").value
+    })
+  })
+  .then(res => res.blob())
+  .then(blob => {
+    const url = URL.createObjectURL(blob);
+    window.open(url);
+  });
+}
+</script>
+
+</body>
+</html>
